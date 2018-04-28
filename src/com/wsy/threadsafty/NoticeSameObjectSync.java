@@ -3,7 +3,14 @@ package com.wsy.threadsafty;
 public class NoticeSameObjectSync {
     public static int a=0;
     public static int j=0;
+    public static Object o=new Object();
     public void addInt(String prefix){
+        synchronized (o){
+
+        }
+        synchronized (Object.class){
+
+        }
         synchronized (this){
 
             a++;

@@ -14,6 +14,7 @@ package com.wsy.threadsafty;
 
  memory = allocate();   //1：分配对象的内存空间
  instance = memory;     //3：设置instance指向刚分配的内存地址
+ //ka.
  //注意，此时对象还没有被初始化！
  ctorInstance(memory);  //2：初始化对象
  将第2步和第3步调换顺序，在单线程情况下不会影响程序执行的结果，但是在多线程情况下就不一样了。
@@ -23,7 +24,7 @@ package com.wsy.threadsafty;
  * 以上描述为http://blog.csdn.net/zhangzeyuaaa/article/details/42673245博客中的解释描述
  * */
 public class VolatileDoubleCheck {
-    private  static VolatileDoubleCheck instance;
+    private volatile static VolatileDoubleCheck instance;
 //    public final double s;
     private VolatileDoubleCheck() {
 //        s=Math.random();
@@ -33,6 +34,9 @@ public class VolatileDoubleCheck {
 //            e.printStackTrace();
 //        }
     }
+    public void doSomeThing(){
+        System.out.println("doSomeThing......");
+    }
     public static VolatileDoubleCheck getInstance(){
         if(instance==null){
             synchronized(VolatileDoubleCheck.class){
@@ -41,6 +45,16 @@ public class VolatileDoubleCheck {
                 }
             }
         }
+        return instance;
+    }
+    public synchronized static VolatileDoubleCheck getInstance2(){
+//        if(instance==null){
+//            synchronized(VolatileDoubleCheck.class){
+                if(instance==null){
+                    instance=new VolatileDoubleCheck();
+                }
+//            }
+//        }
         return instance;
     }
 

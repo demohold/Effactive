@@ -21,9 +21,20 @@ public  class ClassOrThisSync {
                 e.printStackTrace();
             }
     }
-
+    public void  a(){}
+    public void doThisMethod(){
+        synchronized (this) {
+            System.out.println(Thread.currentThread().getName() + "===doThisMethod...."+(System.currentTimeMillis())+this);
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        //
+    }
     public synchronized static void  doSyncStaicMethodLikeClass(){
-        System.out.println(Thread.currentThread().getName() + "===doSyncStaicMethodLikeClass....");
+        System.out.println(Thread.currentThread().getName() + "===doSyncStaicMethodLikeClass...."+(System.currentTimeMillis()));
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -34,9 +45,9 @@ public  class ClassOrThisSync {
 
     }
 
-    public void doThisMethod(){
-        synchronized (this) {
-            System.out.println(Thread.currentThread().getName() + "===doThisMethod....");
+    public  static void  doSyncObjectClass(){
+        synchronized (Object.class) {
+            System.out.println(Thread.currentThread().getName() + "===doSyncObjectClass...." + (System.currentTimeMillis()));
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -47,7 +58,7 @@ public  class ClassOrThisSync {
 
     public void doClassMethod(){
         synchronized (ClassOrThisSync.class) {
-            System.out.println(Thread.currentThread().getName() + "===doClassMethod....");
+            System.out.println(Thread.currentThread().getName() + "===doClassMethod...."+this);
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -66,6 +77,20 @@ public  class ClassOrThisSync {
                 public void run() {
                     ClassOrThisSync c=new ClassOrThisSync();
                     c.doSyncStaicMethodLikeClass();
+//                    c.doSyncMethodLikeThis();
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+//                    c.doSyncStaicMethodLikeClass();
+                    ClassOrThisSync c=new ClassOrThisSync();
+//                    c.doSyncStaicMethodLikeClass();
+                    c.doSyncObjectClass();
+
+//                    c.doThisMethod();
+
+//                    c.noSync();
                 }
             }).start();
 //            new Thread(new Runnable() {

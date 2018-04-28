@@ -11,8 +11,8 @@ public class NoticeDeadThreadSync {
                 for (int i = 0; i < 100; i++) {
                     a.updateFile();
                     b.appendFile(a);
-//                    b.updateFile();
-//                    a.appendFile(b);
+                    b.updateFile();
+                    a.appendFile(b);
                 }
             }).start();
         }
